@@ -14,7 +14,7 @@
 
     body {
         font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(-45deg, #ffe6e6, #ffcccc, #ffb3b3, #ff9999);
+        background: linear-gradient(-45deg, #ffe6e6, #ffccff, #ffb3ff, #ff99ff);
         background-size: 400% 400%;
         animation: gradient 15s ease infinite;
         color: #800000;
@@ -48,14 +48,14 @@
     }
 
     button {
-        background-color: #ff4d4d;
+        background-color: #FF69B4;
         color: white;
         cursor: pointer;
         transition: 0.3s;
     }
 
     button:hover {
-        background-color: #e60000;
+        background-color: #DA70D6;
     }
 
     .letter {
@@ -98,22 +98,24 @@
 </head>
 <body>
 
-<h1>💌 Love Letter Generator 💌</h1>
+<h1>💌 A Special Surprise for You 💌</h1>
 
-<input type="text" id="name" placeholder="Her Name">
-<input type="text" id="color" placeholder="Her Favorite Color">
-<input type="text" id="memory" placeholder="Your Favorite Memory Together">
-<br>
-<button onclick="generateLetter()">Generate Letter</button>
-<button id="downloadBtn" style="display:none;" onclick="downloadPDF()">💾 Download PDF</button>
+<!-- Inputs hidden for auto mode -->
+<input type="text" id="name" placeholder="Her Name" value="Sweetheart" style="display:none;">
+<input type="text" id="color" placeholder="Her Favorite Color" value="pink" style="display:none;">
+<input type="text" id="memory" placeholder="Your Favorite Memory Together" value="our first date" style="display:none;">
 
 <div class="letter" id="letter"></div>
+<button id="downloadBtn" style="display:none;" onclick="downloadPDF()">💾 Download PDF</button>
 <div id="hearts"></div>
 
 <!-- html2pdf library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
+// Lovers colors palette
+const loversColors = ['#FF69B4', '#FFC0CB', '#DA70D6', '#FF1493'];
+
 // Generate floating hearts
 function createHearts() {
     const hearts = document.getElementById('hearts');
@@ -122,12 +124,14 @@ function createHearts() {
         heart.classList.add('heart');
         heart.style.left = Math.random() * 100 + 'vw';
         heart.style.animationDuration = 4 + Math.random() * 4 + 's';
+        heart.style.color = loversColors[Math.floor(Math.random() * loversColors.length)];
         heart.textContent = '❤️';
         hearts.appendChild(heart);
     }
 }
 createHearts();
 
+// Auto-generate the love letter
 function generateLetter() {
     const name = document.getElementById('name').value || "you";
     const color = document.getElementById('color').value || "beautiful";
@@ -158,14 +162,14 @@ function generateLetter() {
     typeWriter();
 }
 
-// Simple confetti
+// Confetti with lovers colors
 function launchConfetti() {
     for (let i = 0; i < 100; i++) {
         const confetti = document.createElement('div');
         confetti.style.position = 'absolute';
         confetti.style.width = '8px';
         confetti.style.height = '8px';
-        confetti.style.backgroundColor = ['#ff4d4d','#ffb3b3','#ff8080','#e60000'][Math.floor(Math.random()*4)];
+        confetti.style.backgroundColor = loversColors[Math.floor(Math.random() * loversColors.length)];
         confetti.style.left = Math.random() * window.innerWidth + 'px';
         confetti.style.top = '0px';
         confetti.style.borderRadius = '50%';
@@ -198,6 +202,11 @@ function downloadPDF() {
     };
     html2pdf().set(opt).from(element).save();
 }
+
+// Automatically start the letter when page loads
+window.onload = () => {
+    generateLetter();
+};
 </script>
 
 </body>
